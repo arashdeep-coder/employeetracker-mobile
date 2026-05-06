@@ -43,13 +43,14 @@ export async function startBackgroundLocationTask(): Promise<void> {
   }
 
   await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-    accuracy: Location.Accuracy.Balanced,
+    accuracy: Location.Accuracy.High,
     timeInterval: 5 * 60 * 1000, // 5 minutes
     distanceInterval: 0,
     showsBackgroundLocationIndicator: true,
+    pausesLocationUpdatesAutomatically: false,
     foregroundService: {
       notificationTitle: 'Antigravity Tracking',
-      notificationBody: 'Your location is being tracked during your shift.',
+      notificationBody: 'Tracking your shift location...',
       notificationColor: '#0F6E56',
     },
   });

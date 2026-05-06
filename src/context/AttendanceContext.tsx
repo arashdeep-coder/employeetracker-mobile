@@ -50,14 +50,25 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     try {
       setIsPunching(true);
       
-      // 1. Get current location
+      // 1. Request Permissions (Foreground + Background)
+      const { status: foregroundStatus } = await Location.requestForegroundPermissionsAsync();
+      if (foregroundStatus !== 'granted') {
+        throw new Error('Foreground location permission is required');
+      }
+
+      const { status: backgroundStatus } = await Location.requestBackgroundPermissionsAsync();
+      if (backgroundStatus !== 'granted') {
+        throw new Error('Background location permission (Allow all the time) is required');
+      }
+
+      // 2. Get current location
       const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
+        accuracy: Location.Accuracy.High,
       });
       
       const { latitude, longitude } = location.coords;
 
-      // 2. Call backend
+      // 3. Call backend
       const session = await attendanceService.punchIn(latitude, longitude);
       setActiveSession(session);
 
