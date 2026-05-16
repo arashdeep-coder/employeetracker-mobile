@@ -45,7 +45,8 @@ function LoginScreen() {
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <Text variant="displaySmall" style={styles.title}>Antigravity</Text>
+          <Image source={require('../../assets/icon.png')} style={styles.logo} resizeMode="contain" />
+          <Text variant="displaySmall" style={styles.title}>Haazri</Text>
           <Text variant="titleMedium" style={styles.subtitle}>Employee Attendance</Text>
         </View>
 
@@ -117,6 +118,11 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     marginBottom: 48,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 16,
   },
   title: {
     fontWeight: 'bold',

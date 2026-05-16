@@ -66,7 +66,7 @@ function ProfileScreen() {
           Logout
         </Button>
         <Text variant="bodySmall" style={styles.versionText}>
-          Antigravity Employee v1.0.0
+          Haazri v1.0.0
         </Text>
       </View>
     </View>

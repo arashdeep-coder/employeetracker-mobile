@@ -8,6 +8,10 @@ import AuthNavigator from './src/navigation/AuthNavigator';
 import AppNavigator from './src/navigation/AppNavigator';
 import { View, ActivityIndicator } from 'react-native';
 import { THEME } from './src/constants/config';
+import * as SplashScreen from 'expo-splash-screen';
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 // Import background task definition
 import './src/tasks/locationTask';
@@ -18,12 +22,14 @@ import './src/tasks/locationTask';
 function RootNavigator() {
   const { token, isLoading } = useAuth();
 
+  React.useEffect(() => {
+    if (!isLoading) {
+      SplashScreen.hideAsync();
+    }
+  }, [isLoading]);
+
   if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color={THEME.primary} />
-      </View>
-    );
+    return null;
   }
 
   return (

@@ -55,7 +55,7 @@ function AppNavigator() {
         component={activeSession ? ActiveShiftScreen : HomeScreen} 
         options={{ 
           title: activeSession ? 'Active Shift' : 'Home',
-          headerTitle: 'Antigravity'
+          headerTitle: 'Haazri'
         }} 
       />
       <Tab.Screen 

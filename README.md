@@ -1,4 +1,4 @@
-# Antigravity Employee Mobile App
+# Haazri Employee Mobile App
 
 A React Native mobile application built with Expo SDK 51 for employee attendance tracking with background GPS updates.
 

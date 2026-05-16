@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "Antigravity Employee",
-    "slug": "antigravity-employee",
+    "name": "Haazri",
+    "slug": "haazri",
+    "scheme": "haazri",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,30 +10,33 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0F6E56"
+      "backgroundColor": "#0D5C48"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.antigravity.employee",
+      "bundleIdentifier": "com.haazri.employee",
       "infoPlist": {
         "NSLocationAlwaysAndWhenInUseUsageDescription": "We track your location during shifts to verify attendance and ensure safety.",
         "NSLocationWhenInUseUsageDescription": "We need your location to record punch-in and punch-out events.",
-        "NSLocationAlwaysUsageDescription": "We track your location during shifts to verify attendance and ensure safety even when the app is in the background.",
+        "NSLocationAlwaysUsageDescription": "We track your location during shifts to verify attendance and ensure safety.",
         "UIBackgroundModes": [
           "location",
+          "fetch",
+          "location",
           "fetch"
-        ]
+        ],
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0F6E56"
+        "backgroundColor": "#FFFFFF"
       },
-      "package": "com.antigravity.employee",
+      "package": "com.haazri.employee",
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",
@@ -61,7 +65,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "20a6cde1-860f-4d50-861f-65a5881176cc"
+        "projectId": "ff986e8c-cfbc-4291-9386-c07bb3cc1b71"
       }
     }
   }
