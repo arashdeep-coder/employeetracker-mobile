@@ -5,7 +5,7 @@
 export interface User {
   id: string;
   name: string;
-  phone: string;
+  phoneNumber?: string;
   role: 'employee' | 'owner';
   orgId: string;
 }
@@ -21,11 +21,25 @@ export interface AttendanceLog {
   userName?: string;
 }
 
+export interface Organization {
+  id: string;
+  orgCode: string;
+  name: string;
+  email: string;
+  ownerFcmToken?: string | null;
+  geoFenceLat?: number | null;
+  geoFenceLng?: number | null;
+  geoFenceRadiusM: number;
+}
+
 export interface AuthContextType {
   user: User | null;
+  organization: Organization | null;
   token: string | null;
   isLoading: boolean;
-  login: (phone: string, pin: string) => Promise<void>;
+  authMessage: string | null;
+  setAuthMessage: (msg: string | null) => void;
+  login: (orgCode: string, phone: string, pin: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 

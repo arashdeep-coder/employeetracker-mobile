@@ -1,10 +1,12 @@
 import axios from 'axios';
+import { DeviceEventEmitter } from 'react-native';
 import { getToken, clearAuthData } from '../utils/storage';
 import { API_URL } from '../constants/config';
 
 /**
  * Shared axios instance with base configuration.
  */
+console.log(API_URL)
 const api = axios.create({
   baseURL: API_URL,
   timeout: 10000,
@@ -31,7 +33,7 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       // Token expired or invalid - clear local storage
-      // Note: Actual redirection to Login is handled by AuthContext state change
+      DeviceEventEmitter.emit('token_expired');
       await clearAuthData();
     }
     return Promise.reject(error);

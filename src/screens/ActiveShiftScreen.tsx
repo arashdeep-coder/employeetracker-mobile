@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import { Text, Button, Card, ActivityIndicator, Snackbar } from 'react-native-paper';
 import { useAttendance } from '../context/AttendanceContext';
 import { THEME } from '../constants/config';
@@ -9,10 +9,22 @@ import { formatTime, formatDuration } from '../utils/formatters';
  * Active Shift Screen - shown when the employee is currently PUNCHED IN.
  */
 function ActiveShiftScreen() {
-  const { activeSession, punchOut, isPunching } = useAttendance();
+  const { activeSession, punchOut, isPunching, refreshSession } = useAttendance();
   const [elapsedTime, setElapsedTime] = useState('0h 0m');
+  const [refreshing, setRefreshing] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await refreshSession();
+    } catch (err) {
+      console.error('Failed to refresh session:', err);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   // Update elapsed time every minute
   useEffect(() => {
@@ -46,7 +58,13 @@ function ActiveShiftScreen() {
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[THEME.primary]} />
+      }
+    >
       <View style={styles.statusHeader}>
         <View style={styles.pulseDot} />
         <Text variant="titleLarge" style={styles.statusText}>Shift in Progress</Text>

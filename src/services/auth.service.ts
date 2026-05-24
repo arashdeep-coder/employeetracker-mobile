@@ -6,11 +6,11 @@ import { User } from '../types';
  */
 export const authService = {
   /**
-   * Logs in a user with phone and PIN.
+   * Logs in a user with orgCode, phone, and PIN.
    */
-  login: async (phone: string, pin: string): Promise<{ token: string; user: User }> => {
-    const response = await api.post('/auth/login', { phone, pin });
-    return response.data.data; // Expected shape: { success: true, data: { token, user } }
+  login: async (orgCode: string, phone: string, pin: string): Promise<{ token: string; user: User; organization: any }> => {
+    const response = await api.post('/auth/login', { orgCode, phone, pin });
+    return response.data.data; // Expected shape: { success: true, data: { token, user, organization } }
   },
 
   /**

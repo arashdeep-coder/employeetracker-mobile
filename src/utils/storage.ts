@@ -1,5 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
-import { TOKEN_KEY, USER_KEY } from '../constants/config';
+import { TOKEN_KEY, USER_KEY, ORGANIZATION_KEY } from '../constants/config';
 import { User } from '../types';
 
 /**
@@ -51,8 +51,35 @@ export async function removeUser(): Promise<void> {
 }
 
 /**
+ * Saves organization data to secure storage.
+ */
+export async function saveOrganization(org: any): Promise<void> {
+  await SecureStore.setItemAsync(ORGANIZATION_KEY, JSON.stringify(org));
+}
+
+/**
+ * Retrieves organization data from secure storage.
+ */
+export async function getOrganization(): Promise<any | null> {
+  const orgJson = await SecureStore.getItemAsync(ORGANIZATION_KEY);
+  if (!orgJson) return null;
+  try {
+    return JSON.parse(orgJson);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Deletes organization data from secure storage.
+ */
+export async function removeOrganization(): Promise<void> {
+  await SecureStore.deleteItemAsync(ORGANIZATION_KEY);
+}
+
+/**
  * Clears all auth data from secure storage.
  */
 export async function clearAuthData(): Promise<void> {
-  await Promise.all([removeToken(), removeUser()]);
+  await Promise.all([removeToken(), removeUser(), removeOrganization()]);
 }
