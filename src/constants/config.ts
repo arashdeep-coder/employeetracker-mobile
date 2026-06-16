@@ -2,6 +2,7 @@
  * Application-wide configuration constants.
  */
 
+import { white } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 // Replace this with your actual Railway backend URL
 export const API_URL = "https://unpredictive-ruby-intercrystalline.ngrok-free.dev/api/v1"
 export const LOCATION_TASK_NAME = 'background-location-task';

@@ -1,7 +1,7 @@
 import * as TaskManager from 'expo-task-manager';
 import * as Location from 'expo-location';
 import { LOCATION_TASK_NAME } from '../constants/config';
-import { locationService } from '../services/location.service';
+import { queueLocationUpdate, syncOfflineLocations } from '../utils/locationQueue';
 
 /**
  * Defines the background location task using expo-task-manager.
@@ -22,11 +22,14 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
       console.log(`[Background Task] Location update: ${latitude}, ${longitude}`);
 
       try {
-        // Send location to backend
-        await locationService.updateLocation(latitude, longitude);
+        // Queue the location heartbeat with its original timestamp
+        const timestamp = new Date(location.timestamp).toISOString();
+        await queueLocationUpdate(latitude, longitude, timestamp);
+        
+        // Immediately try to flush the offline queue
+        await syncOfflineLocations();
       } catch (err) {
-        console.error('[Background Task] Failed to update location:', err);
-        // TODO: Implement offline queueing if needed
+        console.error('[Background Task] Failed to queue or sync location:', err);
       }
     }
   }

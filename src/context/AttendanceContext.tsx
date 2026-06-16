@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import * as Location from 'expo-location';
+import { Platform } from 'react-native';
 import { AttendanceContextType, AttendanceLog } from '../types';
 import { attendanceService } from '../services/attendance.service';
 import { startBackgroundLocationTask, stopBackgroundLocationTask } from '../tasks/locationTask';
 import { useAuth } from './AuthContext';
+import { syncOfflineLocations } from '../utils/locationQueue';
 
 const AttendanceContext = createContext<AttendanceContextType | undefined>(undefined);
 
@@ -22,6 +24,20 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       setIsLoading(false);
     }
   }, [token]);
+
+  // Sync any offline location heartbeats periodically when shifted in
+  useEffect(() => {
+    if (!activeSession) return;
+
+    // Try syncing immediately on mount / shift resume
+    syncOfflineLocations();
+
+    const interval = setInterval(() => {
+      syncOfflineLocations();
+    }, 30000); // Check/retry every 30 seconds when app is in foreground
+
+    return () => clearInterval(interval);
+  }, [activeSession]);
 
   /**
    * Refreshes the active session state from the backend.
